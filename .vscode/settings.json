@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "cSpell.words": [
         "Algorithmics",
@@ -29,4 +30,15 @@
         "suspiciouspins",
         "vncpass"
     ]
+=======
+{
+    "cSpell.words": [
+        "Algorithmics",
+        "getdisplaygeometry",
+        "mousedown",
+        "mousemove",
+        "mouseup",
+        "Scrapybara"
+    ]
+>>>>>>> 7e0e9a1ac659ef46e168385ea09d0df26b2bfa40
 }

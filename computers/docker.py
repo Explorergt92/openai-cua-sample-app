@@ -30,8 +30,8 @@ class DockerComputer:
         if not result.stdout.strip():
             raise RuntimeError(
                 f"Container {self.container_name} is not running. Build and run with:\n"
-                f"docker build -t {self.container_name} .\n"
-                f"docker run --rm -it --name {self.container_name} "
+                f"docker build -t {self.container_name}.\n"
+                f"docker run --rm -it --name {self.container_name}"
                 f"-p {self.port_mapping} -e DISPLAY={self.display} {self.container_name}"
             )
 
@@ -69,10 +69,14 @@ class DockerComputer:
         pass
 
     def _exec(self, cmd: str) -> str:
-        """
-        Run 'cmd' in the container.
+        """Run 'cmd' in the container.
+
         We wrap cmd in double quotes and escape any double quotes inside it,
         so spaces or quotes don't break the shell call.
+
+        Returns:
+            str: The output of the command execution.
+
         """
         # Escape any existing double quotes in cmd
         safe_cmd = cmd.replace('"', '\\"')
@@ -85,9 +89,11 @@ class DockerComputer:
         )
 
     def screenshot(self) -> str:
-        """
-        Takes a screenshot with ImageMagick (import), returning base64-encoded PNG.
-        Requires 'import'.
+        """Take a screenshot with ImageMagick and return a PNG in base64.
+
+        Returns:
+            str: Base64-encoded PNG screenshot.
+
         """
         # cmd = (
         #     f"export DISPLAY={self.display} && "
@@ -112,9 +118,7 @@ class DockerComputer:
         )
 
     def scroll(self, x: int, y: int, scroll_x: int, scroll_y: int) -> None:
-        """
-        For simple vertical scrolling: xdotool click 4 (scroll up) or 5 (scroll down).
-        """
+        """For vertical scrolling: xdotool click 4 (scroll up) or 5 (scroll down)."""
         self._exec(f"DISPLAY={self.display} xdotool mousemove {x} {y}")
         clicks = abs(scroll_y)
         button = 4 if scroll_y < 0 else 5
@@ -122,9 +126,7 @@ class DockerComputer:
             self._exec(f"DISPLAY={self.display} xdotool click {button}")
 
     def type(self, text: str) -> None:
-        """
-        Type the given text via xdotool, preserving spaces and quotes.
-        """
+        """Type the given text via xdotool, preserving spaces and quotes."""
         # Escape single quotes in the user text: ' -> '\'\''
         safe_text = text.replace("'", "'\\''")
         # Then wrap everything in single quotes for xdotool
@@ -162,5 +164,7 @@ class DockerComputer:
             f"DISPLAY={self.display} xdotool mousemove {start_x} {start_y} mousedown 1"
         )
         for point in path[1:]:
-            self._exec(f"DISPLAY={self.display} xdotool mousemove {point['x']} {point['y']}")
+            self._exec(
+                f"DISPLAY={self.display} xdotool mousemove {point['x']} {point['y']}"
+            )
         self._exec(f"DISPLAY={self.display} xdotool mouseup 1")

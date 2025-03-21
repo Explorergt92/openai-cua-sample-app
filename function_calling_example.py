@@ -1,3 +1,8 @@
+# Copyright (c) 2025 Eloquent-Algorithmics LLC
+# All rights reserved.
+
+"""Example shows how to use the ScrapybaraBrowser with custom functions."""
+
 from agent import Agent
 from computers import ScrapybaraBrowser
 
@@ -18,11 +23,12 @@ tools = [
             "additionalProperties": False,
             "required": ["location", "unit"],
         },
-    }
+    },
 ]
 
 
-def main():
+def main() -> None:
+    """Run the main application loop for the ScrapybaraBrowser example."""
     with ScrapybaraBrowser() as computer:
         agent = Agent(tools=tools, computer=computer)
         items = []
