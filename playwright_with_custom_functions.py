@@ -1,3 +1,8 @@
+# Copyright (c) 2025 Eloquent-Algorithmics LLC
+# All rights reserved.
+
+"""Example shows how to use the PlaywrightComputer with custom functions."""
+
 from agent.agent import Agent
 from computers import LocalPlaywrightComputer
 
@@ -27,14 +32,15 @@ tools = [
 ]
 
 
-def main():
+def main() -> None:
+    """Run the main application."""
     with LocalPlaywrightComputer() as computer:
         agent = Agent(computer=computer, tools=tools)
         items = [
             {
                 "role": "developer",
                 "content": "Use the additional back() and goto() functions to navigate the browser. If you see nothing, try going to bing.com.",
-            }
+            },
         ]
         while True:
             user_input = input("> ")
